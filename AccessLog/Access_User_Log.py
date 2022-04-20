@@ -6,6 +6,19 @@ import json
 import os
 
 
+def escolha(tipo_user='usuario'):
+    if tipo_user == 'usuario':
+        opcao = int(input("[1] Entrar como usuário\n"+
+                        "[2] Entrar como administrador\n"+
+                        "O que deseja fazer? ([0] Encerra): "))
+    if tipo_user == 'adm':
+        opcao = int(input("[1] Listar usuários\n"+
+                          "[2] Pesquisar usuário\n"+
+                          "[3] Listar acessos\n"+
+                          "O que deseja fazer? ([-1] Retornar): "))
+    return opcao
+
+
 # carrega os dados para um dicionario de dados
 def carregar_dados(arquivo):
     if os.path.exists(arquivo):
@@ -30,9 +43,12 @@ def login(arquivo):
     [usuario, senha] = [input("Informe seu login de acesso\nUsuário: "),
                         getpass.getpass("Senha: ")]
 
+    validado, username, nivel_acesso = [False, '', '']
     for chave, valor in dicionario.items():
         if senha == chave and usuario == valor[0]:
-            return True, usuario
+            [validado, username, nivel_acesso] = [True, usuario, valor[2]]
+            # return True, usuario, valor[2]
+    return validado, username, nivel_acesso
 
 
 # Mecanismo que add no dic
